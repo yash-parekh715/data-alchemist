@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Data Alchemist
 
-## Getting Started
+Smart CSV prep tool for Clients, Workers, and Tasks. Upload files, validate and edit in fast grids, describe rules in plain English (AI), filter with a tiny DSL, then export clean CSVs + rules.json.
 
-First, run the development server:
+Live demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- https://data-alchemist-delta-six.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Import: Upload CSVs, auto-normalization for lists, numbers, JSON (see samples/).
+- Fast grids: AG Grid with editing, sort/filter, and per-entity views.
+- Search/DSL: Natural language → DSL via AI, or type DSL directly in the search bar (safe, local evaluation). See [src/components/search/NLSearch.tsx](src/components/search/NLSearch.tsx) and [src/lib/dsl.ts](src/lib/dsl.ts).
+- Validation: Schema and cross-entity checks with a Web Worker; summary panel and revalidate actions. See [src/hooks/useCrossValidation.ts](src/hooks/useCrossValidation.ts).
+- Rules + AI: Build rules or “Suggest from text” (Gemini). See [src/components/rules/RuleBuilder.tsx](src/components/rules/RuleBuilder.tsx) and API at [src/app/api/ai/route.ts](src/app/api/ai/route.ts).
+- Export: Gated until errors resolved; outputs cleaned CSVs and rules.json with metadata.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tech stack
 
-## Learn More
+- Next.js (App Router), TypeScript, Tailwind CSS, AG Grid
+- Google Generative AI via @google/generative-ai (Gemini 2.5 Pro)
+- Web Worker for cross-validation
 
-To learn more about Next.js, take a look at the following resources:
+Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- app/ — pages, API route: [src/app/api/ai/route.ts](src/app/api/ai/route.ts)
+- components/ — grids, search, rules, export, weights
+- hooks/, lib/, store/, workers/, types/, samples/
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Getting started (local)
 
-## Deploy on Vercel
+1. Requirements: Node 18+ and npm
+2. Install
+   - npm i
+3. Env (AI optional)
+   - Create .env.local
+     - GOOGLE_API_KEY=your_key
+     - GEMINI_MODEL=gemini-2.5-pro
+4. Run
+   - npm run dev
+   - Open http://localhost:3000
+5. Try it
+   - Upload samples from [samples/](samples/)
+   - Fix issues in Validation Summary
+   - Use the DSL/NL search bars above each grid
+   - Add a rule or “Suggest from text”
+   - Export when errors = 0
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Vercel recommended. Add the same env vars (GOOGLE_API_KEY, GEMINI_MODEL). See Next.js docs: https://nextjs.org/docs/app/building-your-application/deploying
+
+Notes
+
+- AI calls only send your text prompt and schema; grid filtering is evaluated locally.
+- If you don’t set GOOGLE_API_KEY, AI features are disabled but the app
