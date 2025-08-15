@@ -58,23 +58,6 @@ export default function EntityGrid<T extends object>({
   }, [columns, cellClassRules]);
 
   return (
-    // <div className="ag-theme-alpine" style={{ height: 400 }}>
-    //   <style jsx global>{`
-    //     .cell-error {
-    //       background: rgba(220, 38, 38, 0.15);
-    //     }
-    //     .cell-warning {
-    //       background: rgba(245, 158, 11, 0.15);
-    //     }
-    //   `}</style>
-    //   <AgGridReact
-    //     ref={gridRef}
-    //     rowData={rows}
-    //     columnDefs={cols}
-    //     suppressDragLeaveHidesColumns
-    //     theme="legacy"
-    //   />
-    // </div>
     <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-3">
       <div className="ag-theme-alpine w-full h-[420px] xl:h-[520px] rounded-xl overflow-hidden">
         <AgGridReact<T>

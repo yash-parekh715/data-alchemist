@@ -12,14 +12,6 @@ export function useCrossValidation() {
 
   const workerRef = useRef<Worker | null>(null);
 
-  // const worker = useMemo(
-  //   () =>
-  //     new Worker(
-  //       new URL("@/workers/crossValidation.worker.ts", import.meta.url)
-  //     ),
-  //   []
-  // );
-
   useEffect(() => {
     if (typeof window === "undefined") return;
     const w = new Worker(
