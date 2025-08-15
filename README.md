@@ -53,4 +53,4 @@ Smart CSV prep tool for Clients, Workers, and Tasks. Upload files, validate and 
 ## 🔒 Notes
 
 - AI calls only send your text prompt and schema; grid filtering is evaluated locally.
-- If you don’t set GOOGLE_API_KEY, AI features are disabled but the app still
+- If you don’t set GOOGLE_API_KEY, AI features are disabled but the app still works
